@@ -14,10 +14,10 @@ int main()
 			{
 				wnd.close();
 			}
-			wnd.clear(sf::Color::Magenta);
-			wnd.draw(player);
-			player.keyboardInputHandling();
-			wnd.display();
 		}
+		wnd.clear(sf::Color::Magenta);
+		wnd.draw(player);
+		player.keyboardInputHandling();
+		wnd.display();
 	}
 }
