@@ -11,6 +11,6 @@ public:
 	static const float PLAYER_BASE_SPEED;
 
 	Player();
-	void movePlayer(Direction direction);
-	void keyboardInputHandling();
+	void movePlayer(Direction direction, float deltaTime);
+	void keyboardInputHandling(float deltaTime);
 };

@@ -36,7 +36,7 @@ TEST(PlayerTest, can_move_player_to_the_north)
 	player.setPosition(sf::Vector2f{ 0.0f, 0.0f });
 
 	// Act
-	player.movePlayer(Direction::NORTH);
+	player.movePlayer(Direction::NORTH, 1.0f);
 
 	// Assert
 	EXPECT_EQ(player.getPosition(), sf::Vector2f(0.0f, -Player::PLAYER_BASE_SPEED));
@@ -49,7 +49,7 @@ TEST(PlayerTest, can_move_player_to_the_south)
 	player.setPosition(sf::Vector2f{ 0.0f, 0.0f });
 
 	// Act
-	player.movePlayer(Direction::SOUTH);
+	player.movePlayer(Direction::SOUTH, 1.0f);
 
 	// Assert
 	EXPECT_EQ(player.getPosition(), sf::Vector2f(0.0f, Player::PLAYER_BASE_SPEED));
@@ -62,7 +62,7 @@ TEST(PlayerTest, can_move_player_to_the_east)
 	player.setPosition(sf::Vector2f{ 0.0f, 0.0f });
 
 	// Act
-	player.movePlayer(Direction::EAST);
+	player.movePlayer(Direction::EAST, 1.0f);
 
 	// Assert
 	EXPECT_EQ(player.getPosition(), sf::Vector2f(Player::PLAYER_BASE_SPEED, 0.0f));
@@ -75,8 +75,20 @@ TEST(PlayerTest, can_move_player_to_the_west)
 	player.setPosition(sf::Vector2f{ 0.0f, 0.0f });
 
 	// Act
-	player.movePlayer(Direction::WEST);
+	player.movePlayer(Direction::WEST, 1.0f);
 
 	// Assert
 	EXPECT_EQ(player.getPosition(), sf::Vector2f(-Player::PLAYER_BASE_SPEED, 0.0f));
+}
+
+TEST(PlayerTest, can_calculate_player_speed_with_delta_time)
+{
+	// Arrange
+	Player player;
+
+	// Act
+	player.movePlayer(Direction::SOUTH, 0.1f);
+
+	// Assert
+	EXPECT_EQ(player.getPosition().y, (Player::PLAYER_BASE_SPEED / 10));
 }

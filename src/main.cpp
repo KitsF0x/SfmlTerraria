@@ -5,6 +5,7 @@ int main()
 {
 	sf::RenderWindow wnd{ sf::VideoMode{800, 600}, "Game window" };
 	Player player;
+	sf::Clock clock;
 	while (wnd.isOpen())
 	{
 		sf::Event evn;
@@ -15,9 +16,10 @@ int main()
 				wnd.close();
 			}
 		}
+		float deltaTime = clock.getElapsedTime().asSeconds();
 		wnd.clear(sf::Color::Magenta);
 		wnd.draw(player);
-		player.keyboardInputHandling();
+		player.keyboardInputHandling(deltaTime);
 		wnd.display();
 	}
 }

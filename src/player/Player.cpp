@@ -10,7 +10,7 @@ Player::Player()
 	this->setSize(Player::PLAYER_SIZE);
 }
 
-void Player::movePlayer(Direction direction)
+void Player::movePlayer(Direction direction, float deltaTime)
 {
 	sf::Vector2f toMove{ 0.0f, 0.0f };
 	switch (direction)
@@ -28,25 +28,27 @@ void Player::movePlayer(Direction direction)
 		toMove.x = -PLAYER_BASE_SPEED;
 		break;
 	}
+	toMove.x *= deltaTime;
+	toMove.y *= deltaTime;
 	this->move(toMove);
 }
 
-void Player::keyboardInputHandling()
+void Player::keyboardInputHandling(float deltaTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		movePlayer(Direction::NORTH);
+		movePlayer(Direction::NORTH, deltaTime);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		movePlayer(Direction::EAST);
+		movePlayer(Direction::EAST, deltaTime);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		movePlayer(Direction::SOUTH);
+		movePlayer(Direction::SOUTH, deltaTime);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		movePlayer(Direction::WEST);
+		movePlayer(Direction::WEST, deltaTime);
 	}
 }
