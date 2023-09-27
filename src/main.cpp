@@ -16,7 +16,7 @@ int main()
 				wnd.close();
 			}
 		}
-		float deltaTime = clock.getElapsedTime().asSeconds();
+		float deltaTime = clock.restart().asSeconds();
 		wnd.clear(sf::Color::Magenta);
 		wnd.draw(player);
 		player.keyboardInputHandling(deltaTime);
