@@ -2,5 +2,7 @@
 project(SfmlTerraria)
 
 find_package(GTest CONFIG REQUIRED)
+find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 
+add_subdirectory(src)
 add_subdirectory(test)
