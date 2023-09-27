@@ -6,8 +6,8 @@ const float Player::PLAYER_BASE_SPEED{ 10.0f };
 
 Player::Player()
 {
-	this->setFillColor(Player::PLAYER_COLOR);
-	this->setSize(Player::PLAYER_SIZE);
+	shape.setFillColor(Player::PLAYER_COLOR);
+	shape.setSize(Player::PLAYER_SIZE);
 }
 
 void Player::movePlayer(Direction direction, float deltaTime)
@@ -51,4 +51,20 @@ void Player::keyboardInputHandling(float deltaTime)
 	{
 		movePlayer(Direction::WEST, deltaTime);
 	}
+}
+
+sf::RectangleShape Player::getShape()
+{
+	return shape;
+}
+
+void Player::update(float deltaTime)
+{
+	keyboardInputHandling(deltaTime);
+	shape.setPosition(getPosition());
+}
+
+void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(shape);
 }
