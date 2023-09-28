@@ -66,3 +66,15 @@ TEST(PlayerTest, can_calculate_player_speed_with_delta_time)
 	// Assert
 	EXPECT_EQ(player.getPosition().y, (Player::PLAYER_BASE_SPEED / 10));
 }
+
+TEST(PlayerTest, can_player_fall)
+{
+	// Arrange
+	Player player;
+
+	// Act
+	player.fall(1.0f);
+
+	// Assert
+	EXPECT_EQ(player.getPosition(), sf::Vector2f(player.getPosition().x, Player::PLAYER_BASE_SPEED));
+}

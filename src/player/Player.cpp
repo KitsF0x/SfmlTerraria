@@ -58,10 +58,16 @@ sf::RectangleShape Player::getShape()
 	return shape;
 }
 
+void Player::fall(float deltaTime)
+{
+	movePlayer(Direction::SOUTH, deltaTime);
+}
+
 void Player::update(float deltaTime)
 {
 	keyboardInputHandling(deltaTime);
 	shape.setPosition(getPosition());
+	fall(deltaTime);
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

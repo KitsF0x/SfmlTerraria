@@ -16,6 +16,7 @@ public:
 	void movePlayer(Direction direction, float deltaTime);
 	void keyboardInputHandling(float deltaTime);
 	sf::RectangleShape getShape();
+	void fall(float deltaTime);
 
 	void update(float deltaTime) override;
 
