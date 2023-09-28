@@ -12,8 +12,9 @@ class Player : public IGameObject
 public:
 	static const sf::Vector2f PLAYER_SIZE;
 	static const sf::Color PLAYER_COLOR;
-	static const float PLAYER_BASE_SPEED;
+	static const float PLAYER_BASE_HORIZONTAL_SPEED;
 	static const std::uint16_t JUMP_STEP_COUNTER_INIT_VALUE;
+	static const float PLAYER_BASE_VERTICAL_SPEED;
 
 	Player();
 	void movePlayer(Direction direction, float deltaTime);

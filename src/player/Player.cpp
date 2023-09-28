@@ -2,8 +2,9 @@
 
 const sf::Vector2f Player::PLAYER_SIZE{ 10.0f, 10.0f };
 const sf::Color Player::PLAYER_COLOR{ sf::Color::Blue };
-const float Player::PLAYER_BASE_SPEED{ 10.0f };
+const float Player::PLAYER_BASE_HORIZONTAL_SPEED{ 10.0f };
 const std::uint16_t Player::JUMP_STEP_COUNTER_INIT_VALUE{ 500 };
+const float Player::PLAYER_BASE_VERTICAL_SPEED{ 30.0f };
 
 Player::Player()
 {
@@ -17,16 +18,17 @@ void Player::movePlayer(Direction direction, float deltaTime)
 	switch (direction)
 	{
 	case Direction::NORTH:
-		toMove.y = -PLAYER_BASE_SPEED;
+		// Jump
+		toMove.y = -PLAYER_BASE_VERTICAL_SPEED;
 		break;
 	case Direction::SOUTH:
-		toMove.y = PLAYER_BASE_SPEED;
+		toMove.y = PLAYER_BASE_VERTICAL_SPEED;
 		break;
 	case Direction::EAST:
-		toMove.x = PLAYER_BASE_SPEED;
+		toMove.x = PLAYER_BASE_HORIZONTAL_SPEED;
 		break;
 	case Direction::WEST:
-		toMove.x = -PLAYER_BASE_SPEED;
+		toMove.x = -PLAYER_BASE_HORIZONTAL_SPEED;
 		break;
 	}
 	toMove.x *= deltaTime;

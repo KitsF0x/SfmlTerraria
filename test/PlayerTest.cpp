@@ -13,7 +13,7 @@ TEST(PlayerTest, can_move_player_to_the_north)
 	player.movePlayer(Direction::NORTH, 1.0f);
 
 	// Assert
-	EXPECT_EQ(player.getPosition(), sf::Vector2f(0.0f, -Player::PLAYER_BASE_SPEED));
+	EXPECT_EQ(player.getPosition(), sf::Vector2f(0.0f, -Player::PLAYER_BASE_VERTICAL_SPEED));
 }
 
 TEST(PlayerTest, can_move_player_to_the_south)
@@ -26,7 +26,7 @@ TEST(PlayerTest, can_move_player_to_the_south)
 	player.movePlayer(Direction::SOUTH, 1.0f);
 
 	// Assert
-	EXPECT_EQ(player.getPosition(), sf::Vector2f(0.0f, Player::PLAYER_BASE_SPEED));
+	EXPECT_EQ(player.getPosition(), sf::Vector2f(0.0f, Player::PLAYER_BASE_VERTICAL_SPEED));
 }
 
 TEST(PlayerTest, can_move_player_to_the_east)
@@ -39,7 +39,7 @@ TEST(PlayerTest, can_move_player_to_the_east)
 	player.movePlayer(Direction::EAST, 1.0f);
 
 	// Assert
-	EXPECT_EQ(player.getPosition(), sf::Vector2f(Player::PLAYER_BASE_SPEED, 0.0f));
+	EXPECT_EQ(player.getPosition(), sf::Vector2f(Player::PLAYER_BASE_HORIZONTAL_SPEED, 0.0f));
 }
 
 TEST(PlayerTest, can_move_player_to_the_west)
@@ -52,7 +52,7 @@ TEST(PlayerTest, can_move_player_to_the_west)
 	player.movePlayer(Direction::WEST, 1.0f);
 
 	// Assert
-	EXPECT_EQ(player.getPosition(), sf::Vector2f(-Player::PLAYER_BASE_SPEED, 0.0f));
+	EXPECT_EQ(player.getPosition(), sf::Vector2f(-Player::PLAYER_BASE_HORIZONTAL_SPEED, 0.0f));
 }
 
 TEST(PlayerTest, can_calculate_player_speed_with_delta_time)
@@ -64,7 +64,7 @@ TEST(PlayerTest, can_calculate_player_speed_with_delta_time)
 	player.movePlayer(Direction::SOUTH, 0.1f);
 
 	// Assert
-	EXPECT_EQ(player.getPosition().y, (Player::PLAYER_BASE_SPEED / 10));
+	EXPECT_EQ(player.getPosition().y, (Player::PLAYER_BASE_VERTICAL_SPEED / 10));
 }
 
 TEST(PlayerTest, can_player_fall)
@@ -77,7 +77,7 @@ TEST(PlayerTest, can_player_fall)
 	player.handleFall(1.0f);
 
 	// Assert
-	EXPECT_EQ(player.getPosition(), sf::Vector2f(player.getPosition().x, Player::PLAYER_BASE_SPEED));
+	EXPECT_EQ(player.getPosition(), sf::Vector2f(player.getPosition().x, Player::PLAYER_BASE_VERTICAL_SPEED));
 }
 
 TEST(PlayerTest, can_player_jump)
@@ -91,7 +91,7 @@ TEST(PlayerTest, can_player_jump)
 	player.handleJump(1.0f);
 
 	// Assert
-	EXPECT_EQ(player.getPosition(), sf::Vector2f(player.getPosition().x, -Player::PLAYER_BASE_SPEED));
+	EXPECT_EQ(player.getPosition(), sf::Vector2f(player.getPosition().x, -Player::PLAYER_BASE_VERTICAL_SPEED));
 }
 
 TEST(PlayerTest, player_cannot_fall_when_status_is_on_ground)
