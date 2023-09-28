@@ -5,7 +5,7 @@ int main()
 {
 	sf::RenderWindow wnd{ sf::VideoMode{800, 600}, "Game window" };
 	Player player;
-	player.setStatus(PlayerStatus::ON_GROUND);
+	player.gravityManager.setStatus(PlayerStatus::ON_GROUND);
 	sf::Clock clock;
 	while (wnd.isOpen())
 	{
