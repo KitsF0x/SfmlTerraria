@@ -18,6 +18,10 @@ public:
 	void movePlayer(Direction direction, float deltaTime);
 	void keyboardInputHandling(float deltaTime);
 	sf::RectangleShape getShape();
+	bool collidesTop(sf::FloatRect otherArea);
+	bool collidesBottom(sf::FloatRect otherArea);
+	bool collidesLeft(sf::FloatRect otherArea);
+	bool collidesRight(sf::FloatRect otherArea);
 
 	void update(float deltaTime) override;
 
