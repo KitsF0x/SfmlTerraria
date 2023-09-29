@@ -2,12 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 #include "Direction.hpp"
-#include "IGameObject.hpp"
+#include "AGameObject.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <iostream>
 #include "GravityManager.hpp"
 
-class Player : public IGameObject
+class Player : public AGameObject
 {
 public:
 	static const sf::Vector2f PLAYER_SIZE;
@@ -18,11 +18,8 @@ public:
 	void movePlayer(Direction direction, float deltaTime);
 	void keyboardInputHandling(float deltaTime);
 	sf::RectangleShape getShape();
-	bool collidesTop(sf::FloatRect otherArea);
-	bool collidesBottom(sf::FloatRect otherArea);
-	bool collidesLeft(sf::FloatRect otherArea);
-	bool collidesRight(sf::FloatRect otherArea);
 
+	sf::FloatRect getHitbox() override;
 	void update(float deltaTime) override;
 
 private:

@@ -70,56 +70,9 @@ void Player::update(float deltaTime)
 	gravityManager.handleFall(deltaTime);
 }
 
-bool Player::collidesTop(sf::FloatRect otherArea)
+sf::FloatRect Player::getHitbox()
 {
-	if (shape.getGlobalBounds().intersects(otherArea))
-	{
-		float otherBottom = otherArea.top + otherArea.height;
-		return (
-			otherBottom > shape.getGlobalBounds().top &&
-			otherBottom < shape.getGlobalBounds().top + shape.getGlobalBounds().height
-			);
-	}
-	return false;
-}
-
-bool Player::collidesBottom(sf::FloatRect otherArea)
-{
-	if (shape.getGlobalBounds().intersects(otherArea))
-	{
-		float otherTop = otherArea.top;
-		return (
-			otherTop > shape.getGlobalBounds().top &&
-			otherTop < shape.getGlobalBounds().top + shape.getGlobalBounds().height
-			);
-	}
-	return false;
-}
-
-bool Player::collidesLeft(sf::FloatRect otherArea)
-{
-	if (shape.getGlobalBounds().intersects(otherArea))
-	{
-		float otherLeft = otherArea.left + otherArea.width;
-		return (
-			otherLeft > shape.getGlobalBounds().left &&
-			otherLeft < shape.getGlobalBounds().left + shape.getGlobalBounds().width
-			);
-	}
-	return false;
-}
-
-bool Player::collidesRight(sf::FloatRect otherArea)
-{
-	if (shape.getGlobalBounds().intersects(otherArea))
-	{
-		float otherLeft = otherArea.left;
-		return (
-			otherLeft > shape.getGlobalBounds().left &&
-			otherLeft < shape.getGlobalBounds().left + shape.getGlobalBounds().width
-			);
-	}
-	return false;
+	return shape.getGlobalBounds();
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
