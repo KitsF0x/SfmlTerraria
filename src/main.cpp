@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
 #include "GrassBlock.hpp"
+#include "SandBlock.hpp"
+#include "WaterBlock.hpp"
 
 int main()
 {
@@ -11,7 +13,18 @@ int main()
 	std::vector < std::shared_ptr<AGameObject>> blocks{ 10 };
 	for (int i = 0; i < blocks.size(); i++)
 	{
-		blocks.at(i) = std::make_shared<GrassBlock>();
+		switch (i % 3)
+		{
+		case 0:
+			blocks.at(i) = std::make_shared<SandBlock>();
+			break;
+		case 1:
+			blocks.at(i) = std::make_shared<GrassBlock>();
+			break;
+		case 2:
+			blocks.at(i) = std::make_shared<WaterBlock>();
+			break;
+		}
 		blocks.at(i)->setPosition(sf::Vector2f{ 0 + i * GrassBlock::BLOCK_SIZE, 500 });
 	}
 
