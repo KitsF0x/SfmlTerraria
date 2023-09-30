@@ -279,3 +279,24 @@ TEST(PlayerTest, when_player_is_standing_on_any_block_from_vector_then_status_sh
 	// Assert
 	EXPECT_EQ(player.gravityManager.getStatus(), GameObjectStatus::ON_GROUND);
 }
+
+TEST(PlayerTest, when_detected_collision_with_any_block_is_true_and_jump_counter_is_zero_status_should_be_set_to_falling)
+{
+	// Arrange
+	Player player;
+	player.gravityManager.setStatus(GameObjectStatus::FALLING);
+	std::vector<GrassBlock> blocks{ 2 };
+	player.setPosition(0.0f, 500.0f);
+	blocks.at(0).setPosition(player.getPosition() + sf::Vector2f{ 0, Player::PLAYER_SIZE.y - 1 });
+	for (int i = 0; i < GravityManager::JUMP_STEP_COUNTER_INIT_VALUE;i++)
+	{
+		player.update(1.0f);
+	}
+	blocks.at(0).update(1.0f);
+
+	// Act
+	player.detectStandingOnAnyBlockFromVector(blocks);
+
+	// Assert
+	EXPECT_EQ(player.gravityManager.getStatus(), GameObjectStatus::FALLING);
+}

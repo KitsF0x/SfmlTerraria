@@ -46,8 +46,8 @@ int main()
 		{
 			std::cout << "Jumping" << std::endl;
 		}
-		player.update(deltaTime);
 		player.detectStandingOnAnyBlockFromVector(blocks);
+		player.update(deltaTime);
 		wnd.display();
 	}
 }

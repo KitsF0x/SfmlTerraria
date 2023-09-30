@@ -94,7 +94,10 @@ void Player::detectStandingOnAnyBlockFromVector(const std::vector<GrassBlock>& b
 	}
 	else
 	{
-		gravityManager.setStatus(GameObjectStatus::FALLING);
+		if (gravityManager.getJumpStepCounter() == 0)
+		{
+			gravityManager.setStatus(GameObjectStatus::FALLING);
+		}
 	}
 }
 
