@@ -9,16 +9,15 @@ class GravityManager
 {
 public:
 	static const float BASE_HORIZONTAL_SPEED;
-	static const std::uint16_t JUMP_STEP_COUNTER_INIT_VALUE;
 	static const float BASE_VERTICAL_SPEED;
 
 	GravityManager(sf::Transformable& transformable);
-	void handleFall(float deltaTime);
-	void handleJump(float deltaTime);
+	void handleFall(float deltaTime, float horizontalSpeed);
+	void handleJump(float deltaTime, float horizontalSpeed);
 	void setStatus(GameObjectStatus status);
 	GameObjectStatus getStatus() const;
 	std::uint16_t getJumpStepCounter() const;
-	void triggerJump();
+	void triggerJump(std::uint16_t jumpSteps);
 
 private:
 	sf::Transformable& transformable;

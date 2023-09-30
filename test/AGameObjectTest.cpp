@@ -1,17 +1,24 @@
 #include <gtest/gtest.h>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include "AGameObject.hpp"
 
 class TestGameObject : public AGameObject
 {
 public:
+	TestGameObject()
+	{
+	}
 	sf::FloatRect getHitbox() override
 	{
-		return sf::FloatRect{ 0,0, 10, 10 };
+		return shape.getGlobalBounds();
 	}
+
 	void update(float deltaTime) override
 	{
+		shape.setPosition(getPosition());
 	}
 protected:
+	sf::RectangleShape shape{ sf::Vector2f{10, 10} };
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 	{
 	}
@@ -197,4 +204,56 @@ TEST(AGameObjectTest, when_colliding_with_left_is_true_colliding_with_right_shou
 	// Assert
 	EXPECT_TRUE(collidesLeft);
 	EXPECT_FALSE(collidesRight);
+}
+
+TEST(AGameObjectTest, can_move_object_to_the_north)
+{
+	// Arrange
+	TestGameObject testGameObject;
+	testGameObject.setPosition(sf::Vector2f{ 0.0f, 0.0f });
+
+	// Act
+	testGameObject.moveGameObject(Direction::NORTH, 1.0f, 1.0f);
+
+	// Assert
+	EXPECT_EQ(testGameObject.getPosition(), sf::Vector2f(0.0f, -1.0f));
+}
+
+TEST(AGameObjectTest, can_move_object_to_the_south)
+{
+	// Arrange
+	TestGameObject testGameObject;
+	testGameObject.setPosition(sf::Vector2f{ 0.0f, 0.0f });
+
+	// Act
+	testGameObject.moveGameObject(Direction::SOUTH, 1.0f, 1.0f);
+
+	// Assert
+	EXPECT_EQ(testGameObject.getPosition(), sf::Vector2f(0.0f, 1.0f));
+}
+
+TEST(AGameObjectTest, can_move_object_to_the_east)
+{
+	// Arrange
+	TestGameObject testGameObject;
+	testGameObject.setPosition(sf::Vector2f{ 0.0f, 0.0f });
+
+	// Act
+	testGameObject.moveGameObject(Direction::EAST, 1.0f, 1.0f);
+
+	// Assert
+	EXPECT_EQ(testGameObject.getPosition(), sf::Vector2f(1.0f, 0.0f));
+}
+
+TEST(AGameObjectTest, can_move_player_to_the_west)
+{
+	// Arrange
+	TestGameObject testGameObject;
+	testGameObject.setPosition(sf::Vector2f{ 0.0f, 0.0f });
+
+	// Act
+	testGameObject.moveGameObject(Direction::WEST, 1.0f, 1.0f);
+
+	// Assert
+	EXPECT_EQ(testGameObject.getPosition(), sf::Vector2f(-1.0f, 0.0f));
 }

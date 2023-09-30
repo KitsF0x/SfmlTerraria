@@ -12,14 +12,15 @@ class Player : public AGameObject
 public:
 	static const sf::Vector2f PLAYER_SIZE;
 	static const sf::Color PLAYER_COLOR;
+	static const float PLAYER_SPEED;
+	static const std::uint16_t PLAYER_JUMP_STEPS;
 	GravityManager gravityManager;
 
 	Player();
-	void movePlayer(Direction direction, float deltaTime);
-	void keyboardInputHandling(float deltaTime);
 	sf::RectangleShape getShape();
-	void detectCollisionWithBlock(GrassBlock& grassBlock);
-	void detectStandingOnAnyBlockFromVector(const std::vector<GrassBlock>& blocks);
+	void keyboardInputHandling(float deltaTime);
+	void checkBottomCollisionsAndUpdateStatus(std::shared_ptr<AGameObject> other);
+	void checkBottomCollisionsAndUpdateStatus(const std::vector<std::shared_ptr<AGameObject>>& others);
 
 	sf::FloatRect getHitbox() override;
 	void update(float deltaTime) override;
@@ -27,5 +28,5 @@ public:
 private:
 	sf::RectangleShape shape;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

@@ -1,5 +1,4 @@
 add_executable(${PROJECT_NAME}-ut
-	"SimpleTest.cpp"
 	"PlayerTest.cpp"
 	"AGameObjectTest.cpp"
 )

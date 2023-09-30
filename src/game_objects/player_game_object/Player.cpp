@@ -1,7 +1,9 @@
 #include "Player.hpp"
 
-const sf::Vector2f Player::PLAYER_SIZE{ 10.0f, 10.0f };
+const sf::Vector2f Player::PLAYER_SIZE{ 40.0f, 90.0f };
 const sf::Color Player::PLAYER_COLOR{ sf::Color::Blue };
+const float Player::PLAYER_SPEED{ 100.0f };
+const std::uint16_t Player::PLAYER_JUMP_STEPS{ 100 };
 
 Player::Player() : gravityManager(*this)
 {
@@ -9,51 +11,27 @@ Player::Player() : gravityManager(*this)
 	shape.setSize(Player::PLAYER_SIZE);
 }
 
-void Player::movePlayer(Direction direction, float deltaTime)
-{
-	sf::Vector2f toMove{ 0.0f, 0.0f };
-	switch (direction)
-	{
-	case Direction::NORTH:
-		// Jump
-		toMove.y = -gravityManager.BASE_VERTICAL_SPEED;
-		break;
-	case Direction::SOUTH:
-		toMove.y = gravityManager.BASE_VERTICAL_SPEED;
-		break;
-	case Direction::EAST:
-		toMove.x = gravityManager.BASE_HORIZONTAL_SPEED;
-		break;
-	case Direction::WEST:
-		toMove.x = -gravityManager.BASE_HORIZONTAL_SPEED;
-		break;
-	}
-	toMove.x *= deltaTime;
-	toMove.y *= deltaTime;
-	this->move(toMove);
-}
-
 void Player::keyboardInputHandling(float deltaTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		movePlayer(Direction::NORTH, deltaTime);
+		moveGameObject(Direction::NORTH, deltaTime, PLAYER_SPEED);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		movePlayer(Direction::EAST, deltaTime);
+		moveGameObject(Direction::EAST, deltaTime, PLAYER_SPEED);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		movePlayer(Direction::SOUTH, deltaTime);
+		moveGameObject(Direction::SOUTH, deltaTime, PLAYER_SPEED);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		movePlayer(Direction::WEST, deltaTime);
+		moveGameObject(Direction::WEST, deltaTime, PLAYER_SPEED);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		gravityManager.triggerJump();
+		gravityManager.triggerJump(PLAYER_JUMP_STEPS);
 	}
 }
 
@@ -66,8 +44,8 @@ void Player::update(float deltaTime)
 {
 	keyboardInputHandling(deltaTime);
 	shape.setPosition(getPosition());
-	gravityManager.handleJump(deltaTime);
-	gravityManager.handleFall(deltaTime);
+	gravityManager.handleJump(deltaTime, PLAYER_SPEED);
+	gravityManager.handleFall(deltaTime, PLAYER_SPEED);
 }
 
 sf::FloatRect Player::getHitbox()
@@ -75,29 +53,23 @@ sf::FloatRect Player::getHitbox()
 	return shape.getGlobalBounds();
 }
 
-void Player::detectCollisionWithBlock(GrassBlock& grassBlock)
+void Player::checkBottomCollisionsAndUpdateStatus(std::shared_ptr<AGameObject> other)
 {
-	bool ok = collidesBottom(grassBlock.getHitbox());
-	if (ok && gravityManager.getStatus() == GameObjectStatus::FALLING)
+	if (isCollidingWithOther(other, Direction::SOUTH) && gravityManager.getStatus() == GameObjectStatus::FALLING)
 	{
 		gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 	}
 }
-
-void Player::detectStandingOnAnyBlockFromVector(const std::vector<GrassBlock>& blocks)
+void Player::checkBottomCollisionsAndUpdateStatus(const std::vector<std::shared_ptr<AGameObject>>& others)
 {
-	auto pos = std::find_if(blocks.begin(), blocks.end(), [this](GrassBlock block) {
-		return this->collidesBottom(block.getHitbox());
-		});
-	if (pos != blocks.end()) {
-		gravityManager.setStatus(GameObjectStatus::ON_GROUND);
-	}
-	else
+	if (isCollidingWithOtherFromVector(others, Direction::SOUTH))
 	{
-		if (gravityManager.getJumpStepCounter() == 0)
-		{
-			gravityManager.setStatus(GameObjectStatus::FALLING);
-		}
+		gravityManager.setStatus(GameObjectStatus::ON_GROUND);
+		return;
+	}
+	if (gravityManager.getJumpStepCounter() == 0)
+	{
+		gravityManager.setStatus(GameObjectStatus::FALLING);
 	}
 }
 

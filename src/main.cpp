@@ -8,13 +8,16 @@ int main()
 	Player player;
 	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 
-	std::vector<GrassBlock> blocks{ 10 };
+	std::vector < std::shared_ptr<AGameObject>> blocks{ 10 };
 	for (int i = 0; i < blocks.size(); i++)
 	{
-		blocks.at(i).setPosition(sf::Vector2f{ 0 + i * GrassBlock::BLOCK_SIZE, 500 });
+		blocks.at(i) = std::make_shared<GrassBlock>();
+		blocks.at(i)->setPosition(sf::Vector2f{ 0 + i * GrassBlock::BLOCK_SIZE, 500 });
 	}
 
 	sf::Clock clock;
+	float deltaTime = 1.0f;
+	wnd.setFramerateLimit(50);
 	while (wnd.isOpen())
 	{
 		sf::Event evn;
@@ -25,14 +28,13 @@ int main()
 				wnd.close();
 			}
 		}
-		float deltaTime = clock.restart().asSeconds();
 		wnd.clear(sf::Color::Magenta);
 		wnd.draw(player);
 		for (auto& el : blocks)
 		{
-			wnd.draw(el);
-			el.update(deltaTime);
-			player.detectCollisionWithBlock(el);
+			wnd.draw(*el.get());
+			el->update(deltaTime);
+			player.checkBottomCollisionsAndUpdateStatus(el);
 		}
 		if (player.gravityManager.getStatus() == GameObjectStatus::ON_GROUND)
 		{
@@ -46,8 +48,9 @@ int main()
 		{
 			std::cout << "Jumping" << std::endl;
 		}
-		player.detectStandingOnAnyBlockFromVector(blocks);
+		player.checkBottomCollisionsAndUpdateStatus(blocks);
 		player.update(deltaTime);
 		wnd.display();
+		deltaTime = clock.restart().asSeconds();
 	}
 }
