@@ -7,6 +7,7 @@
 class AGameObject : public sf::Drawable, public sf::Transformable
 {
 public:
+	bool collides(sf::FloatRect otherArea);
 	bool collidesTop(sf::FloatRect otherArea);
 	bool collidesBottom(sf::FloatRect otherArea);
 	bool collidesLeft(sf::FloatRect otherArea);

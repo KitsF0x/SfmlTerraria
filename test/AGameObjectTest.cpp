@@ -17,6 +17,23 @@ protected:
 	}
 };
 
+TEST(AGameObjectTest, can_detect_collision)
+{
+	// Arrange
+	TestGameObject testGameObject;
+
+	// Act
+	bool collides = testGameObject.collidesTop(sf::FloatRect{
+		testGameObject.getHitbox().left - 1,
+		testGameObject.getHitbox().top - 1,
+		testGameObject.getHitbox().width,
+		testGameObject.getHitbox().height
+		});
+
+	// Assert
+	EXPECT_TRUE(collides);
+}
+
 TEST(AGameObjectTest, can_detect_top_collision)
 {
 	// Arrange

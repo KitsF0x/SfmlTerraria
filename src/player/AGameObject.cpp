@@ -1,8 +1,13 @@
 #include "AGameObject.hpp"
 
+bool AGameObject::collides(sf::FloatRect otherArea)
+{
+	return getHitbox().intersects(otherArea);
+}
+
 bool AGameObject::collidesTop(sf::FloatRect otherArea)
 {
-	if (getHitbox().intersects(otherArea))
+	if (collides(otherArea))
 	{
 		float otherBottom = otherArea.top + otherArea.height;
 		return (
@@ -15,7 +20,7 @@ bool AGameObject::collidesTop(sf::FloatRect otherArea)
 
 bool AGameObject::collidesBottom(sf::FloatRect otherArea)
 {
-	if (getHitbox().intersects(otherArea))
+	if (collides(otherArea))
 	{
 		float otherTop = otherArea.top;
 		return (
@@ -28,7 +33,7 @@ bool AGameObject::collidesBottom(sf::FloatRect otherArea)
 
 bool AGameObject::collidesLeft(sf::FloatRect otherArea)
 {
-	if (getHitbox().intersects(otherArea))
+	if (collides(otherArea))
 	{
 		float otherLeft = otherArea.left + otherArea.width;
 		return (
@@ -41,7 +46,7 @@ bool AGameObject::collidesLeft(sf::FloatRect otherArea)
 
 bool AGameObject::collidesRight(sf::FloatRect otherArea)
 {
-	if (getHitbox().intersects(otherArea))
+	if (collides(otherArea))
 	{
 		float otherLeft = otherArea.left;
 		return (
