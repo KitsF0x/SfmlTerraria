@@ -3,6 +3,7 @@
 #include <memory>
 #include "Player.hpp"
 #include "GravityManager.hpp"
+#include "GrassBlock.hpp"
 
 TEST(PlayerTest, can_move_player_to_the_north)
 {
@@ -228,4 +229,20 @@ TEST(PlayerTest, when_status_is_on_ground_jump_and_fall_handling_should_not_move
 
 	// Assert
 	EXPECT_EQ(player.getPosition(), sf::Vector2f(0.0f, 0.0f));
+}
+
+TEST(PlayerTest, can_detect_collision_with_block_and_set_status_to_on_ground_when_status_is_falling)
+{
+	// Arrange
+	Player player;
+	GrassBlock block;
+	player.setPosition(block.getHitbox().left, -block.getHitbox().top - 1);
+	player.gravityManager.setStatus(PlayerStatus::FALLING);
+	player.update(1.0f);
+
+	// Act
+	player.detectCollisionWithBlock(block);
+
+	// Assert
+	EXPECT_EQ(player.gravityManager.getStatus(), PlayerStatus::ON_GROUND);
 }

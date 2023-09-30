@@ -1,11 +1,11 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include "Direction.hpp"
 #include "AGameObject.hpp"
-#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "GravityManager.hpp"
+#include "GrassBlock.hpp"
 
 class Player : public AGameObject
 {
@@ -18,6 +18,7 @@ public:
 	void movePlayer(Direction direction, float deltaTime);
 	void keyboardInputHandling(float deltaTime);
 	sf::RectangleShape getShape();
+	void detectCollisionWithBlock(GrassBlock& grassBlock);
 
 	sf::FloatRect getHitbox() override;
 	void update(float deltaTime) override;

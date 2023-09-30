@@ -75,6 +75,15 @@ sf::FloatRect Player::getHitbox()
 	return shape.getGlobalBounds();
 }
 
+void Player::detectCollisionWithBlock(GrassBlock& grassBlock)
+{
+	bool ok = collidesBottom(grassBlock.getHitbox());
+	if (ok && gravityManager.getStatus() == PlayerStatus::FALLING)
+	{
+		gravityManager.setStatus(PlayerStatus::ON_GROUND);
+	}
+}
+
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(shape);

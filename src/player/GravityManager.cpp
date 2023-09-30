@@ -1,8 +1,8 @@
 #include "GravityManager.hpp"
 
-const float GravityManager::BASE_HORIZONTAL_SPEED{ 10.0f };
-const std::uint16_t GravityManager::JUMP_STEP_COUNTER_INIT_VALUE{ 500 };
-const float GravityManager::BASE_VERTICAL_SPEED{ 30.0f };
+const float GravityManager::BASE_HORIZONTAL_SPEED{ 100.0f };
+const std::uint16_t GravityManager::JUMP_STEP_COUNTER_INIT_VALUE{ 2000 };
+const float GravityManager::BASE_VERTICAL_SPEED{ 300.0f };
 
 GravityManager::GravityManager(sf::Transformable& transformable)
 	: transformable(transformable)
