@@ -3,12 +3,11 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "AGameObject.hpp"
+#include "BaseBlock.hpp"
 
-class WaterBlock : public AGameObject
+class WaterBlock : public BaseBlock
 {
 public:
-	static const float BLOCK_SIZE;
-
 	WaterBlock();
 	sf::FloatRect getHitbox() override;
 	void update(float deltaTime) override;

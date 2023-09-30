@@ -1,7 +1,5 @@
 #include "WaterBlock.hpp"
 
-const float WaterBlock::BLOCK_SIZE{ 64 };
-
 WaterBlock::WaterBlock()
 {
 	shape.setFillColor(sf::Color::Blue);

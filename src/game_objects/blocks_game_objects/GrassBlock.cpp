@@ -1,7 +1,5 @@
 #include "GrassBlock.hpp"
 
-const float GrassBlock::BLOCK_SIZE{ 64 };
-
 GrassBlock::GrassBlock()
 {
 	dirtPart.setFillColor(sf::Color{ 110, 40, 30 });
