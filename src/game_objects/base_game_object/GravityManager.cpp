@@ -11,34 +11,34 @@ GravityManager::GravityManager(sf::Transformable& transformable)
 
 void GravityManager::handleFall(float deltaTime)
 {
-	if (status == PlayerStatus::FALLING) {
+	if (status == GameObjectStatus::FALLING) {
 		transformable.move(sf::Vector2f{ 0.0f, BASE_VERTICAL_SPEED * deltaTime });
 	}
 }
 
 void GravityManager::handleJump(float deltaTime)
 {
-	if (status != PlayerStatus::ON_GROUND) {
+	if (status != GameObjectStatus::ON_GROUND) {
 		if (this->jumpStepCounter > 0) {
 			this->jumpStepCounter--;
 		}
 		else
 		{
 			// jumpStepCounter == 0
-			this->setStatus(PlayerStatus::FALLING);
+			this->setStatus(GameObjectStatus::FALLING);
 		}
-		if (status != PlayerStatus::FALLING) {
+		if (status != GameObjectStatus::FALLING) {
 			transformable.move(sf::Vector2f{ 0.0f, -BASE_VERTICAL_SPEED * deltaTime });
 		}
 	}
 }
 
-void GravityManager::setStatus(PlayerStatus status)
+void GravityManager::setStatus(GameObjectStatus status)
 {
 	this->status = status;
 }
 
-PlayerStatus GravityManager::getStatus() const
+GameObjectStatus GravityManager::getStatus() const
 {
 	return status;
 }
@@ -50,9 +50,9 @@ std::uint16_t GravityManager::getJumpStepCounter() const
 
 void GravityManager::triggerJump()
 {
-	if (getStatus() == PlayerStatus::ON_GROUND)
+	if (getStatus() == GameObjectStatus::ON_GROUND)
 	{
-		this->setStatus(PlayerStatus::JUMPING);
+		this->setStatus(GameObjectStatus::JUMPING);
 		this->jumpStepCounter = JUMP_STEP_COUNTER_INIT_VALUE;
 	}
 }

@@ -78,9 +78,23 @@ sf::FloatRect Player::getHitbox()
 void Player::detectCollisionWithBlock(GrassBlock& grassBlock)
 {
 	bool ok = collidesBottom(grassBlock.getHitbox());
-	if (ok && gravityManager.getStatus() == PlayerStatus::FALLING)
+	if (ok && gravityManager.getStatus() == GameObjectStatus::FALLING)
 	{
-		gravityManager.setStatus(PlayerStatus::ON_GROUND);
+		gravityManager.setStatus(GameObjectStatus::ON_GROUND);
+	}
+}
+
+void Player::detectStandingOnAnyBlockFromVector(const std::vector<GrassBlock>& blocks)
+{
+	auto pos = std::find_if(blocks.begin(), blocks.end(), [this](GrassBlock block) {
+		return this->collidesBottom(block.getHitbox());
+		});
+	if (pos != blocks.end()) {
+		gravityManager.setStatus(GameObjectStatus::ON_GROUND);
+	}
+	else
+	{
+		gravityManager.setStatus(GameObjectStatus::FALLING);
 	}
 }
 

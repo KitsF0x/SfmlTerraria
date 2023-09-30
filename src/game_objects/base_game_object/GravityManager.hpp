@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <SFML/Graphics/Transformable.hpp>
-#include "PlayerStatus.hpp"
+#include "GameObjectStatus.hpp"
 #include "Direction.hpp"
 
 class GravityManager
@@ -15,13 +15,13 @@ public:
 	GravityManager(sf::Transformable& transformable);
 	void handleFall(float deltaTime);
 	void handleJump(float deltaTime);
-	void setStatus(PlayerStatus status);
-	PlayerStatus getStatus() const;
+	void setStatus(GameObjectStatus status);
+	GameObjectStatus getStatus() const;
 	std::uint16_t getJumpStepCounter() const;
 	void triggerJump();
 
 private:
 	sf::Transformable& transformable;
-	PlayerStatus status{ PlayerStatus::ON_GROUND };
+	GameObjectStatus status{ GameObjectStatus::ON_GROUND };
 	std::uint16_t jumpStepCounter{ 0 };
 };

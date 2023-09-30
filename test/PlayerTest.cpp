@@ -73,7 +73,7 @@ TEST(PlayerTest, can_player_fall)
 {
 	// Arrange
 	Player player;
-	player.gravityManager.setStatus(PlayerStatus::FALLING);
+	player.gravityManager.setStatus(GameObjectStatus::FALLING);
 
 	// Act
 	player.gravityManager.handleFall(1.0f);
@@ -86,7 +86,7 @@ TEST(PlayerTest, can_player_jump)
 {
 	// Arrange
 	Player player;
-	player.gravityManager.setStatus(PlayerStatus::ON_GROUND);
+	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 	player.gravityManager.triggerJump();
 
 	// Act
@@ -100,7 +100,7 @@ TEST(PlayerTest, player_cannot_fall_when_status_is_on_ground)
 {
 	// Arrange
 	Player player;
-	player.gravityManager.setStatus(PlayerStatus::ON_GROUND);
+	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 
 	// Act
 	player.gravityManager.handleFall(1.0f);
@@ -113,7 +113,7 @@ TEST(PlayerTest, player_cannot_jump_when_status_is_falling)
 {
 	// Arrange
 	Player player;
-	player.gravityManager.setStatus(PlayerStatus::FALLING);
+	player.gravityManager.setStatus(GameObjectStatus::FALLING);
 
 	// Act
 	player.gravityManager.handleJump(1.0f);
@@ -126,7 +126,7 @@ TEST(PlayerTest, player_cannot_fall_when_status_is_jumping)
 {
 	// Arrange
 	Player player;
-	player.gravityManager.setStatus(PlayerStatus::JUMPING);
+	player.gravityManager.setStatus(GameObjectStatus::JUMPING);
 
 	// Act
 	player.gravityManager.handleFall(1.0f);
@@ -139,7 +139,7 @@ TEST(PlayerTest, player_can_trigger_jump_when_status_is_on_ground)
 {
 	// Arrange
 	Player player;
-	player.gravityManager.setStatus(PlayerStatus::ON_GROUND);
+	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 	player.gravityManager.triggerJump();
 
 	// Act
@@ -170,7 +170,7 @@ TEST(PlayerTest, when_jump_is_triggered_jump_status_should_be_set_to_jumping)
 	player.gravityManager.triggerJump();
 
 	// Assert
-	EXPECT_EQ(player.gravityManager.getStatus(), PlayerStatus::JUMPING);
+	EXPECT_EQ(player.gravityManager.getStatus(), GameObjectStatus::JUMPING);
 }
 
 TEST(PlayerTest, when_status_is_jumping_jump_step_counter_should_be_decremented_after_each_jump)
@@ -215,7 +215,7 @@ TEST(PlayerTest, when_jump_step_counter_reach_zero_status_should_be_set_to_falli
 	}
 
 	// Assert
-	EXPECT_EQ(player.gravityManager.getStatus(), PlayerStatus::FALLING);
+	EXPECT_EQ(player.gravityManager.getStatus(), GameObjectStatus::FALLING);
 }
 
 TEST(PlayerTest, when_status_is_on_ground_jump_and_fall_handling_should_not_move_player)
@@ -237,12 +237,45 @@ TEST(PlayerTest, can_detect_collision_with_block_and_set_status_to_on_ground_whe
 	Player player;
 	GrassBlock block;
 	player.setPosition(block.getHitbox().left, -block.getHitbox().top - 1);
-	player.gravityManager.setStatus(PlayerStatus::FALLING);
+	player.gravityManager.setStatus(GameObjectStatus::FALLING);
 	player.update(1.0f);
 
 	// Act
 	player.detectCollisionWithBlock(block);
 
 	// Assert
-	EXPECT_EQ(player.gravityManager.getStatus(), PlayerStatus::ON_GROUND);
+	EXPECT_EQ(player.gravityManager.getStatus(), GameObjectStatus::ON_GROUND);
+}
+
+TEST(PlayerTest, when_player_is_not_standing_on_any_block_from_vector_then_status_should_be_set_to_falling)
+{
+	// Arrange
+	Player player;
+	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
+	std::vector<GrassBlock> blocks{ 2 };
+	player.setPosition(1000.0f, 1000.0f);
+
+	// Act
+	player.detectStandingOnAnyBlockFromVector(blocks);
+
+	// Assert
+	EXPECT_EQ(player.gravityManager.getStatus(), GameObjectStatus::FALLING);
+}
+
+TEST(PlayerTest, when_player_is_standing_on_any_block_from_vector_then_status_should_be_set_to_on_ground)
+{
+	// Arrange
+	Player player;
+	player.gravityManager.setStatus(GameObjectStatus::FALLING);
+	std::vector<GrassBlock> blocks{ 2 };
+	player.setPosition(0.0f, 500.0f);
+	blocks.at(0).setPosition(player.getPosition() + sf::Vector2f{ 0, Player::PLAYER_SIZE.y - 1 });
+	player.update(1.0f);
+	blocks.at(0).update(1.0f);
+
+	// Act
+	player.detectStandingOnAnyBlockFromVector(blocks);
+
+	// Assert
+	EXPECT_EQ(player.gravityManager.getStatus(), GameObjectStatus::ON_GROUND);
 }

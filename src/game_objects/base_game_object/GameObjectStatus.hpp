@@ -1,6 +1,6 @@
 #pragma once
 
-enum class PlayerStatus
+enum class GameObjectStatus
 {
 	ON_GROUND,
 	FALLING,

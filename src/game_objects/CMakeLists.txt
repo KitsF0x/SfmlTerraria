@@ -1,0 +1,3 @@
+add_subdirectory(base_game_object)
+add_subdirectory(blocks_game_objects)
+add_subdirectory(player_game_object)

@@ -6,10 +6,13 @@ int main()
 {
 	sf::RenderWindow wnd{ sf::VideoMode{800, 600}, "Game window" };
 	Player player;
-	player.gravityManager.setStatus(PlayerStatus::ON_GROUND);
+	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 
-	GrassBlock block;
-	block.setPosition(sf::Vector2f{ 100, 200 });
+	std::vector<GrassBlock> blocks{ 10 };
+	for (int i = 0; i < blocks.size(); i++)
+	{
+		blocks.at(i).setPosition(sf::Vector2f{ 0 + i * GrassBlock::BLOCK_SIZE, 500 });
+	}
 
 	sf::Clock clock;
 	while (wnd.isOpen())
@@ -25,10 +28,26 @@ int main()
 		float deltaTime = clock.restart().asSeconds();
 		wnd.clear(sf::Color::Magenta);
 		wnd.draw(player);
-		wnd.draw(block);
+		for (auto& el : blocks)
+		{
+			wnd.draw(el);
+			el.update(deltaTime);
+			player.detectCollisionWithBlock(el);
+		}
+		if (player.gravityManager.getStatus() == GameObjectStatus::ON_GROUND)
+		{
+			std::cout << "On ground" << std::endl;
+		}
+		if (player.gravityManager.getStatus() == GameObjectStatus::FALLING)
+		{
+			std::cout << "Falling" << std::endl;
+		}
+		if (player.gravityManager.getStatus() == GameObjectStatus::JUMPING)
+		{
+			std::cout << "Jumping" << std::endl;
+		}
 		player.update(deltaTime);
-		block.update(deltaTime);
-		player.detectCollisionWithBlock(block);
+		player.detectStandingOnAnyBlockFromVector(blocks);
 		wnd.display();
 	}
 }

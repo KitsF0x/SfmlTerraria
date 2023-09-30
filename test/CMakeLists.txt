@@ -8,5 +8,7 @@ target_link_libraries(${PROJECT_NAME}-ut PRIVATE
 	GTest::gtest 
 	GTest::gtest_main
 	
-	player
+	base_game_object
+	blocks_game_objects
+	player_game_object
 )

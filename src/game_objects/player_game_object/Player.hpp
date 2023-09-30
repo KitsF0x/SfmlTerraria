@@ -19,6 +19,7 @@ public:
 	void keyboardInputHandling(float deltaTime);
 	sf::RectangleShape getShape();
 	void detectCollisionWithBlock(GrassBlock& grassBlock);
+	void detectStandingOnAnyBlockFromVector(const std::vector<GrassBlock>& blocks);
 
 	sf::FloatRect getHitbox() override;
 	void update(float deltaTime) override;
