@@ -3,29 +3,32 @@
 #include "GrassBlock.hpp"
 #include "SandBlock.hpp"
 #include "WaterBlock.hpp"
+#include "GameObjectsManager.hpp"
 
 int main()
 {
 	sf::RenderWindow wnd{ sf::VideoMode{800, 600}, "Game window" };
 	Player player;
 	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
+	GameObjectsManager manager;
 
-	std::vector < std::shared_ptr<AGameObject>> blocks{ 10 };
-	for (int i = 0; i < blocks.size(); i++)
+	for (int i = 0; i < 10; i++)
 	{
+		std::shared_ptr<AGameObject> obj;
 		switch (i % 3)
 		{
 		case 0:
-			blocks.at(i) = std::make_shared<SandBlock>();
+			obj = std::make_shared<SandBlock>();
 			break;
 		case 1:
-			blocks.at(i) = std::make_shared<GrassBlock>();
+			obj = std::make_shared<GrassBlock>();
 			break;
 		case 2:
-			blocks.at(i) = std::make_shared<WaterBlock>();
+			obj = std::make_shared<WaterBlock>();
 			break;
 		}
-		blocks.at(i)->setPosition(sf::Vector2f{ 0 + i * GrassBlock::BLOCK_SIZE, 500 });
+		obj->setPosition(sf::Vector2f{ 0 + i * BaseBlock::BLOCK_SIZE, 500 });
+		manager.add(obj);
 	}
 
 	sf::Clock clock;
@@ -43,12 +46,8 @@ int main()
 		}
 		wnd.clear(sf::Color::Magenta);
 		wnd.draw(player);
-		for (auto& el : blocks)
-		{
-			wnd.draw(*el.get());
-			el->update(deltaTime);
-			player.checkBottomCollisionsAndUpdateStatus(el);
-		}
+		manager.update(deltaTime);
+		manager.render(wnd);
 		if (player.gravityManager.getStatus() == GameObjectStatus::ON_GROUND)
 		{
 			std::cout << "On ground" << std::endl;
@@ -61,7 +60,7 @@ int main()
 		{
 			std::cout << "Jumping" << std::endl;
 		}
-		player.checkBottomCollisionsAndUpdateStatus(blocks);
+		player.checkBottomCollisionsAndUpdateStatus(manager.getVector());
 		player.update(deltaTime);
 		wnd.display();
 		deltaTime = clock.restart().asSeconds();

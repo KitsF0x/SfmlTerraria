@@ -1,7 +1,7 @@
 add_executable(${PROJECT_NAME}-ut
 	"PlayerTest.cpp"
 	"AGameObjectTest.cpp"
-)
+ "GameObjectsManagerTest.cpp")
 
 target_link_libraries(${PROJECT_NAME}-ut PRIVATE 
 	GTest::gtest 
