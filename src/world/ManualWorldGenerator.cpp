@@ -1,14 +1,11 @@
-#include "WorldGenerator.hpp"
+#include "ManualWorldGenerator.hpp"
 
-const std::uint32_t WorldGenerator::AIR_BLOCK_ID{ 0 };
-const std::uint32_t WorldGenerator::GRASS_BLOCK_ID{ 1 };
-const std::uint32_t WorldGenerator::SAND_BLOCK_ID{ 2 };
-const std::uint32_t WorldGenerator::WATER_BLOCK_ID{ 3 };
+ManualWorldGenerator::ManualWorldGenerator(const std::vector<std::vector<std::uint32_t>>& numericIds)
+	: numericIds(numericIds)
+{
+}
 
-std::vector<std::shared_ptr<BaseBlock>> WorldGenerator::map(
-	const std::vector<std::vector<std::uint32_t>>& numericIds,
-	const sf::Vector2f& offset
-)
+std::vector<std::shared_ptr<BaseBlock>> ManualWorldGenerator::generate(const sf::Vector2f& offset)
 {
 	std::vector<std::shared_ptr<BaseBlock>> toReturn;
 	for (int y = 0; y < numericIds.size(); y++)
@@ -18,13 +15,13 @@ std::vector<std::shared_ptr<BaseBlock>> WorldGenerator::map(
 			std::shared_ptr<BaseBlock> block;
 			switch (numericIds.at(y).at(x))
 			{
-			case GRASS_BLOCK_ID:
+			case BlocksIdTable::GRASS_BLOCK_ID:
 				block = std::make_shared<GrassBlock>();
 				break;
-			case SAND_BLOCK_ID:
+			case BlocksIdTable::SAND_BLOCK_ID:
 				block = std::make_shared<SandBlock>();
 				break;
-			case WATER_BLOCK_ID:
+			case BlocksIdTable::WATER_BLOCK_ID:
 				block = std::make_shared<WaterBlock>();
 				break;
 			case 0:

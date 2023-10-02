@@ -4,7 +4,7 @@
 #include "SandBlock.hpp"
 #include "WaterBlock.hpp"
 #include "GameObjectsManager.hpp"
-#include "WorldGenerator.hpp"
+#include "ManualWorldGenerator.hpp"
 
 int main()
 {
@@ -12,8 +12,8 @@ int main()
 	Player player;
 	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 	GameObjectsManager manager;
-	WorldGenerator generator;
-	auto blocks = generator.map({ {0,0,0,1,1,1,2,2,2} }, sf::Vector2f{ 0, 500 });
+	ManualWorldGenerator generator{ { {0,0,0,1,1,1,2,2,2} } };
+	auto blocks = generator.generate(sf::Vector2f{ 0, 500 });
 	for (auto& el : blocks)
 	{
 		manager.add(el);

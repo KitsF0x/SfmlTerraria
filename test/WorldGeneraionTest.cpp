@@ -5,21 +5,19 @@
 #include "GrassBlock.hpp"
 #include "SandBlock.hpp"
 
-#include "WorldGenerator.hpp"
+#include "ManualWorldGenerator.hpp"
 
 TEST(WorldGenerationTest, can_map_2d_vector_of_ints_into_vector_of_blocks)
 {
 	// Arrange
-	WorldGenerator generator;
-	std::vector<std::vector<std::uint32_t>> blocks_int =
-	{
-		{WorldGenerator::GRASS_BLOCK_ID, WorldGenerator::GRASS_BLOCK_ID, WorldGenerator::GRASS_BLOCK_ID},
-		{WorldGenerator::SAND_BLOCK_ID, WorldGenerator::SAND_BLOCK_ID, WorldGenerator::SAND_BLOCK_ID},
-		{WorldGenerator::WATER_BLOCK_ID, WorldGenerator::WATER_BLOCK_ID, WorldGenerator::WATER_BLOCK_ID}
-	};
+	ManualWorldGenerator generator{ {
+		{BlocksIdTable::GRASS_BLOCK_ID, BlocksIdTable::GRASS_BLOCK_ID, BlocksIdTable::GRASS_BLOCK_ID},
+		{BlocksIdTable::SAND_BLOCK_ID, BlocksIdTable::SAND_BLOCK_ID, BlocksIdTable::SAND_BLOCK_ID},
+		{BlocksIdTable::WATER_BLOCK_ID, BlocksIdTable::WATER_BLOCK_ID, BlocksIdTable::WATER_BLOCK_ID}
+		} };
 
 	// Act
-	std::vector<std::shared_ptr<BaseBlock>> blocks = generator.map(blocks_int);
+	std::vector<std::shared_ptr<BaseBlock>> blocks = generator.generate(sf::Vector2f{ 0,0 });
 
 	// Assert
 	EXPECT_EQ(blocks.size(), 9);
@@ -39,15 +37,13 @@ TEST(WorldGenerationTest, can_map_2d_vector_of_ints_into_vector_of_blocks)
 TEST(WorldGenerationTest, can_calculate_position_for_each_block_in_map_method)
 {
 	// Arrange
-	WorldGenerator generator;
-	std::vector<std::vector<std::uint32_t>> blocks_int =
-	{
-		{WorldGenerator::GRASS_BLOCK_ID, WorldGenerator::SAND_BLOCK_ID, WorldGenerator::WATER_BLOCK_ID},
-		{WorldGenerator::GRASS_BLOCK_ID, WorldGenerator::SAND_BLOCK_ID, WorldGenerator::WATER_BLOCK_ID},
-	};
+	ManualWorldGenerator generator{ {
+		{BlocksIdTable::GRASS_BLOCK_ID, BlocksIdTable::SAND_BLOCK_ID, BlocksIdTable::WATER_BLOCK_ID},
+		{BlocksIdTable::GRASS_BLOCK_ID, BlocksIdTable::SAND_BLOCK_ID, BlocksIdTable::WATER_BLOCK_ID},
+		} };
 
 	// Act
-	std::vector<std::shared_ptr<BaseBlock>> blocks = generator.map(blocks_int);
+	std::vector<std::shared_ptr<BaseBlock>> blocks = generator.generate(sf::Vector2f{ 0,0 });
 
 	// Assert
 	EXPECT_EQ(blocks.at(0)->getPosition(), sf::Vector2f(0, 0));
@@ -61,15 +57,13 @@ TEST(WorldGenerationTest, can_calculate_position_for_each_block_in_map_method)
 TEST(WorldGenerationTest, when_passed_offset_in_map_method_should_add_offset_for_each_block)
 {
 	// Arrange
-	WorldGenerator generator;
-	std::vector<std::vector<std::uint32_t>> blocks_int =
-	{
-		{WorldGenerator::GRASS_BLOCK_ID, WorldGenerator::SAND_BLOCK_ID, WorldGenerator::WATER_BLOCK_ID},
-		{WorldGenerator::GRASS_BLOCK_ID, WorldGenerator::SAND_BLOCK_ID, WorldGenerator::WATER_BLOCK_ID},
-	};
+	ManualWorldGenerator generator{ {
+		{BlocksIdTable::GRASS_BLOCK_ID, BlocksIdTable::SAND_BLOCK_ID, BlocksIdTable::WATER_BLOCK_ID},
+		{BlocksIdTable::GRASS_BLOCK_ID, BlocksIdTable::SAND_BLOCK_ID, BlocksIdTable::WATER_BLOCK_ID},
+		} };
 
 	// Act
-	std::vector<std::shared_ptr<BaseBlock>> blocks = generator.map(blocks_int, sf::Vector2f{ 23, 10 });
+	std::vector<std::shared_ptr<BaseBlock>> blocks = generator.generate(sf::Vector2f{ 23, 10 });
 
 	// Assert
 	EXPECT_EQ(blocks.at(0)->getPosition(), sf::Vector2f(23, 10));
@@ -83,14 +77,12 @@ TEST(WorldGenerationTest, when_passed_offset_in_map_method_should_add_offset_for
 TEST(WorldGenerationTest, when_id_is_zero_block_should_be_ignored)
 {
 	// Arrange
-	WorldGenerator generator;
-	std::vector<std::vector<std::uint32_t>> blocks_int =
-	{
-		{WorldGenerator::GRASS_BLOCK_ID, 0, WorldGenerator::WATER_BLOCK_ID}
-	};
+	ManualWorldGenerator generator{ {
+		{BlocksIdTable::GRASS_BLOCK_ID, 0, BlocksIdTable::WATER_BLOCK_ID}
+	} };
 
 	// Act
-	auto blocks = generator.map(blocks_int);
+	auto blocks = generator.generate(sf::Vector2f{ 0,0 });
 
 	// Assert
 	EXPECT_EQ(blocks.size(), 2);
