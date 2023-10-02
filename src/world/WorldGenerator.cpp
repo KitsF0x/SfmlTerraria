@@ -1,8 +1,9 @@
 #include "WorldGenerator.hpp"
 
-const std::uint32_t WorldGenerator::GRASS_BLOCK_ID{ 0 };
-const std::uint32_t WorldGenerator::SAND_BLOCK_ID{ 1 };
-const std::uint32_t WorldGenerator::WATER_BLOCK_ID{ 2 };
+const std::uint32_t WorldGenerator::AIR_BLOCK_ID{ 0 };
+const std::uint32_t WorldGenerator::GRASS_BLOCK_ID{ 1 };
+const std::uint32_t WorldGenerator::SAND_BLOCK_ID{ 2 };
+const std::uint32_t WorldGenerator::WATER_BLOCK_ID{ 3 };
 
 std::vector<std::shared_ptr<BaseBlock>> WorldGenerator::map(
 	const std::vector<std::vector<std::uint32_t>>& numericIds,
@@ -26,6 +27,9 @@ std::vector<std::shared_ptr<BaseBlock>> WorldGenerator::map(
 			case WATER_BLOCK_ID:
 				block = std::make_shared<WaterBlock>();
 				break;
+			case 0:
+			default:
+				continue;
 			}
 			block->setPosition(sf::Vector2f{
 				BaseBlock::BLOCK_SIZE * x + offset.x,

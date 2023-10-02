@@ -79,3 +79,19 @@ TEST(WorldGenerationTest, when_passed_offset_in_map_method_should_add_offset_for
 	EXPECT_EQ(blocks.at(4)->getPosition(), sf::Vector2f(BaseBlock::BLOCK_SIZE + 23, BaseBlock::BLOCK_SIZE + 10));
 	EXPECT_EQ(blocks.at(5)->getPosition(), sf::Vector2f(BaseBlock::BLOCK_SIZE * 2 + 23, BaseBlock::BLOCK_SIZE + 10));
 }
+
+TEST(WorldGenerationTest, when_id_is_zero_block_should_be_ignored)
+{
+	// Arrange
+	WorldGenerator generator;
+	std::vector<std::vector<std::uint32_t>> blocks_int =
+	{
+		{WorldGenerator::GRASS_BLOCK_ID, 0, WorldGenerator::WATER_BLOCK_ID}
+	};
+
+	// Act
+	auto blocks = generator.map(blocks_int);
+
+	// Assert
+	EXPECT_EQ(blocks.size(), 2);
+}

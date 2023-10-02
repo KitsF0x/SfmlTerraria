@@ -9,6 +9,7 @@
 class WorldGenerator
 {
 public:
+	static const std::uint32_t AIR_BLOCK_ID;
 	static const std::uint32_t GRASS_BLOCK_ID;
 	static const std::uint32_t SAND_BLOCK_ID;
 	static const std::uint32_t WATER_BLOCK_ID;
