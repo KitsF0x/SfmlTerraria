@@ -4,6 +4,7 @@
 #include "SandBlock.hpp"
 #include "WaterBlock.hpp"
 #include "GameObjectsManager.hpp"
+#include "WorldGenerator.hpp"
 
 int main()
 {
@@ -11,24 +12,11 @@ int main()
 	Player player;
 	player.gravityManager.setStatus(GameObjectStatus::ON_GROUND);
 	GameObjectsManager manager;
-
-	for (int i = 0; i < 10; i++)
+	WorldGenerator generator;
+	auto blocks = generator.map({ {0,0,0,1,1,1,2,2,2} }, sf::Vector2f{ 0, 500 });
+	for (auto& el : blocks)
 	{
-		std::shared_ptr<AGameObject> obj;
-		switch (i % 3)
-		{
-		case 0:
-			obj = std::make_shared<SandBlock>();
-			break;
-		case 1:
-			obj = std::make_shared<GrassBlock>();
-			break;
-		case 2:
-			obj = std::make_shared<WaterBlock>();
-			break;
-		}
-		obj->setPosition(sf::Vector2f{ 0 + i * BaseBlock::BLOCK_SIZE, 500 });
-		manager.add(obj);
+		manager.add(el);
 	}
 
 	sf::Clock clock;
