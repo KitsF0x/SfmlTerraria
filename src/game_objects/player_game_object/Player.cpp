@@ -1,9 +1,9 @@
 #include "Player.hpp"
 
-const sf::Vector2f Player::PLAYER_SIZE{ 40.0f, 90.0f };
+const sf::Vector2f Player::PLAYER_SIZE{ 20.0f, 45.0f };
 const sf::Color Player::PLAYER_COLOR{ sf::Color::Blue };
 const float Player::PLAYER_SPEED{ 100.0f };
-const std::uint16_t Player::PLAYER_JUMP_STEPS{ 100 };
+const std::uint16_t Player::PLAYER_JUMP_STEPS{ 45 };
 
 Player::Player() : gravityManager(*this)
 {
